@@ -1,0 +1,3484 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#1a0a12">
+    <title>Para você meu amor!</title>
+    <meta name="description" content="Cinco etapas, cinco descobertas. Uma pergunta no final.">
+
+    <!-- Bootstrap 5.3 + ícones + fontes (tudo via CDN, nada para instalar) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&family=Quicksand:wght@300;400;500;600;700&family=Caveat:wght@400;600;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        /* =========================================================================
+   1. VARIÁVEIS
+   ========================================================================= */
+        :root {
+            --bg: #1a0a12;
+            --bg-2: #2b0f1a;
+            --card: rgba(255, 255, 255, .045);
+            --card-hi: rgba(255, 255, 255, .075);
+            --border: rgba(255, 255, 255, .10);
+            --rose: #ff6b9d;
+            --rose-deep: #c92a63;
+            --gold: #e8c39e;
+            --gold-hi: #f7ddb6;
+            --cream: #fff5f0;
+            --muted: rgba(255, 240, 235, .62);
+            --ok: #7fe0b0;
+            --f-display: 'Playfair Display', Georgia, serif;
+            --f-body: 'Quicksand', system-ui, -apple-system, sans-serif;
+            --f-hand: 'Caveat', cursive;
+            --r: 18px;
+            --t: .35s cubic-bezier(.4, 0, .2, 1);
+            --sh: 0 18px 50px rgba(0, 0, 0, .45);
+        }
+
+        /* =========================================================================
+   2. BASE
+   ========================================================================= */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 96px;
+            -webkit-text-size-adjust: 100%
+        }
+
+        body {
+            margin: 0;
+            font-family: var(--f-body);
+            color: var(--cream);
+            line-height: 1.75;
+            background: var(--bg);
+            background-image:
+                radial-gradient(900px 600px at 80% -10%, rgba(201, 42, 99, .28), transparent 65%),
+                radial-gradient(700px 500px at 0% 20%, rgba(255, 107, 157, .10), transparent 60%),
+                radial-gradient(800px 600px at 50% 110%, rgba(232, 195, 158, .07), transparent 60%),
+                linear-gradient(180deg, #1a0a12 0%, #210c17 45%, #170911 100%);
+            background-attachment: fixed;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-family: var(--f-display);
+            font-weight: 400;
+            line-height: 1.24;
+            letter-spacing: .2px
+        }
+
+        p {
+            margin: 0 0 1rem
+        }
+
+        .muted {
+            color: var(--muted)
+        }
+
+        .gold {
+            color: var(--gold)
+        }
+
+        .rose {
+            color: var(--rose)
+        }
+
+        .serif-it {
+            font-family: var(--f-display);
+            font-style: italic
+        }
+
+        .hand {
+            font-family: var(--f-hand)
+        }
+
+        .wrap {
+            width: 100%;
+            max-width: 1080px;
+            margin: 0 auto;
+            padding: 0 20px
+        }
+
+        .narrow {
+            max-width: 760px
+        }
+
+        section {
+            position: relative
+        }
+
+        /* =========================================================================
+   3. BARRA DE PROGRESSO (sticky)
+   ========================================================================= */
+        .progress-shell {
+            position: sticky;
+            top: 0;
+            z-index: 60;
+            background: rgba(19, 7, 14, .96);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border-bottom: 1px solid rgba(255, 255, 255, .07);
+        }
+
+        .progress-inner {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            max-width: 1080px;
+            margin: 0 auto;
+            padding: 10px 18px;
+        }
+
+        .progress-track {
+            position: relative;
+            flex: 1;
+            height: 6px;
+            border-radius: 99px;
+            background: rgba(255, 255, 255, .09);
+            overflow: hidden
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0;
+            border-radius: 99px;
+            background: linear-gradient(90deg, var(--rose-deep), var(--rose) 55%, var(--gold));
+            box-shadow: 0 0 14px rgba(255, 107, 157, .55);
+            transition: width .7s cubic-bezier(.4, 0, .2, 1);
+        }
+
+        .progress-counter {
+            font-size: .74rem;
+            letter-spacing: .14em;
+            text-transform: uppercase;
+            color: var(--muted);
+            white-space: nowrap
+        }
+
+        .progress-counter b {
+            color: var(--gold);
+            font-weight: 600
+        }
+
+        @media (max-width:520px) {
+            .progress-counter {
+                font-size: .64rem;
+                letter-spacing: .08em
+            }
+
+            .progress-inner {
+                gap: 10px;
+                padding: 9px 14px
+            }
+        }
+
+        /* marcadores de etapa (abaixo da barra, no topo da jornada) */
+        .markers {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin: 22px 0 6px
+        }
+
+        .marker {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px 6px 8px;
+            border-radius: 99px;
+            border: 1px solid var(--border);
+            background: rgba(255, 255, 255, .025);
+            font-size: .72rem;
+            letter-spacing: .06em;
+            color: var(--muted);
+            transition: var(--t);
+        }
+
+        .marker .dot {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            border: 1px solid rgba(255, 255, 255, .18);
+            font-size: 10px;
+            color: var(--muted);
+            flex: none;
+        }
+
+        .marker.is-done {
+            color: var(--gold);
+            border-color: rgba(232, 195, 158, .35);
+            background: rgba(232, 195, 158, .08)
+        }
+
+        .marker.is-done .dot {
+            background: linear-gradient(135deg, var(--rose), var(--gold));
+            border-color: transparent;
+            color: #2b0f1a;
+            font-weight: 700
+        }
+
+        .marker.is-current {
+            color: var(--cream);
+            border-color: rgba(255, 107, 157, .45);
+            background: rgba(255, 107, 157, .10)
+        }
+
+        .marker.is-current .dot {
+            border-color: var(--rose);
+            color: var(--rose);
+            animation: pulseRing 2s infinite
+        }
+
+        .marker .mlabel {
+            display: none
+        }
+
+        @media (min-width:720px) {
+            .marker .mlabel {
+                display: inline
+            }
+        }
+
+        @keyframes pulseRing {
+
+            0%,
+            100% {
+                box-shadow: 0 0 0 0 rgba(255, 107, 157, .35)
+            }
+
+            50% {
+                box-shadow: 0 0 0 6px rgba(255, 107, 157, 0)
+            }
+        }
+
+        /* =========================================================================
+   4. HERO
+   ========================================================================= */
+        .hero {
+            min-height: 100svh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 70px 20px 90px;
+            overflow: hidden;
+        }
+
+        .hero-hearts {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+            pointer-events: none
+        }
+
+        .hero-hearts i {
+            position: absolute;
+            bottom: -40px;
+            color: var(--rose);
+            opacity: 0;
+            font-size: 18px;
+            animation: floatUp linear infinite;
+            filter: drop-shadow(0 0 10px rgba(255, 107, 157, .4));
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) scale(.7) rotate(0);
+                opacity: 0
+            }
+
+            12% {
+                opacity: .65
+            }
+
+            100% {
+                transform: translateY(-115svh) scale(1.15) rotate(24deg);
+                opacity: 0
+            }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 820px
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            font-size: .72rem;
+            letter-spacing: .28em;
+            text-transform: uppercase;
+            color: var(--gold);
+            border: 1px solid rgba(232, 195, 158, .28);
+            border-radius: 99px;
+            padding: 7px 16px;
+            background: rgba(232, 195, 158, .06);
+            margin-bottom: 26px;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 9vw, 5.2rem);
+            font-style: italic;
+            margin: 0 0 6px;
+            background: linear-gradient(180deg, #fff8f4 20%, var(--gold) 95%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 20px 60px rgba(255, 107, 157, .18);
+        }
+
+        .hero h1 .name {
+            white-space: nowrap
+        }
+
+        .type-line {
+            min-height: 3.2em;
+            max-width: 540px;
+            margin: 8px auto 30px;
+            color: var(--muted);
+            font-size: clamp(.98rem, 2.6vw, 1.12rem);
+            font-weight: 400;
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 2px;
+            height: 1em;
+            background: var(--rose);
+            margin-left: 3px;
+            vertical-align: -2px;
+            animation: blink 1s steps(1) infinite
+        }
+
+        @keyframes blink {
+            50% {
+                opacity: 0
+            }
+        }
+
+        .btn-ornate {
+            display: inline-flex;
+            align-items: center;
+            gap: 11px;
+            padding: 15px 34px;
+            border-radius: 99px;
+            border: 0;
+            cursor: pointer;
+            font-family: var(--f-body);
+            font-size: .94rem;
+            font-weight: 600;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            color: #2a0d16;
+            background: linear-gradient(135deg, var(--gold-hi), var(--gold) 55%, #d9a97b);
+            box-shadow: 0 14px 34px rgba(232, 195, 158, .22), inset 0 1px 0 rgba(255, 255, 255, .5);
+            transition: transform var(--t), box-shadow var(--t), filter var(--t);
+        }
+
+        .btn-ornate:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 44px rgba(232, 195, 158, .3);
+            filter: brightness(1.04)
+        }
+
+        .btn-ornate:active {
+            transform: translateY(0) scale(.98)
+        }
+
+        .btn-ghost {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+            padding: 13px 26px;
+            border-radius: 99px;
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, .2);
+            background: rgba(255, 255, 255, .04);
+            color: var(--cream);
+            font-family: var(--f-body);
+            font-size: .88rem;
+            font-weight: 600;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            transition: var(--t);
+        }
+
+        .btn-ghost:hover {
+            border-color: var(--rose);
+            color: #fff;
+            background: rgba(255, 107, 157, .12)
+        }
+
+        .scroll-hint {
+            position: absolute;
+            left: 50%;
+            bottom: 26px;
+            transform: translateX(-50%);
+            color: var(--muted);
+            font-size: .68rem;
+            letter-spacing: .24em;
+            text-transform: uppercase;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            z-index: 2;
+        }
+
+        .scroll-hint .bar {
+            width: 1px;
+            height: 44px;
+            background: linear-gradient(180deg, var(--rose), transparent);
+            animation: hintDrop 2.4s ease-in-out infinite
+        }
+
+        @keyframes hintDrop {
+
+            0%,
+            100% {
+                opacity: .35;
+                transform: scaleY(.6)
+            }
+
+            50% {
+                opacity: 1;
+                transform: scaleY(1)
+            }
+        }
+
+        /* =========================================================================
+   5. ETAPAS (cards)
+   ========================================================================= */
+        .stages {
+            padding: 10px 0 20px
+        }
+
+        .stage {
+            position: relative;
+            margin: 26px 0;
+            border-radius: var(--r);
+            border: 1px solid var(--border);
+            background: var(--card);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 26px 24px;
+            box-shadow: var(--sh);
+            transition: border-color var(--t), background var(--t), transform var(--t);
+        }
+
+        .stage.is-active {
+            border-color: rgba(255, 107, 157, .38);
+            background: linear-gradient(180deg, rgba(255, 107, 157, .10), rgba(255, 255, 255, .03))
+        }
+
+        .stage.is-done {
+            border-color: rgba(127, 224, 176, .28);
+            background: rgba(127, 224, 176, .05)
+        }
+
+        .stage.is-locked {
+            opacity: .55
+        }
+
+        .stage-head {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 6px
+        }
+
+        .stage-num {
+            flex: none;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            font-family: var(--f-display);
+            font-style: italic;
+            font-size: 1.12rem;
+            color: var(--gold);
+            border: 1px solid rgba(232, 195, 158, .35);
+            background: rgba(232, 195, 158, .07);
+        }
+
+        .stage.is-active .stage-num {
+            color: #2a0d16;
+            background: linear-gradient(135deg, var(--gold-hi), var(--gold));
+            border-color: transparent;
+            box-shadow: 0 8px 22px rgba(232, 195, 158, .28)
+        }
+
+        .stage.is-done .stage-num {
+            color: #123a2c;
+            background: linear-gradient(135deg, #a9f0cf, var(--ok));
+            border-color: transparent
+        }
+
+        .stage-tag {
+            font-size: .66rem;
+            letter-spacing: .22em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin: 0 0 2px
+        }
+
+        .stage-title {
+            font-family: var(--f-display);
+            font-size: 1.22rem;
+            margin: 0
+        }
+
+        .stage-body {
+            padding-left: 58px
+        }
+
+        @media (max-width:520px) {
+            .stage {
+                padding: 22px 18px
+            }
+
+            .stage-body {
+                padding-left: 0;
+                margin-top: 12px
+            }
+        }
+
+        .stage-q {
+            color: var(--cream);
+            font-size: 1.02rem;
+            margin: 12px 0 18px
+        }
+
+        .stage-q b {
+            color: var(--rose);
+            font-weight: 600
+        }
+
+        .dica {
+            margin-top: 16px;
+            padding: 12px 15px;
+            border-radius: 12px;
+            border-left: 2px solid var(--gold);
+            background: rgba(232, 195, 158, .07);
+            font-size: .88rem;
+            color: var(--gold-hi);
+            display: none;
+        }
+
+        .dica.show {
+            display: block;
+            animation: fadeUp .45s both
+        }
+
+        .hint-btn {
+            background: none;
+            border: 0;
+            padding: 0;
+            margin-top: 12px;
+            cursor: pointer;
+            font-size: .78rem;
+            letter-spacing: .06em;
+            color: var(--muted);
+            text-decoration: underline;
+            text-underline-offset: 3px;
+        }
+
+        .hint-btn:hover {
+            color: var(--gold)
+        }
+
+        .stage-done-note {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--ok);
+            font-size: .86rem;
+            margin-top: 8px
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(8px)
+            }
+
+            to {
+                opacity: 1;
+                transform: none
+            }
+        }
+
+        /* ---- desafio: código ---- */
+        .code-display {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 18px
+        }
+
+        .code-slot {
+            width: 56px;
+            height: 64px;
+            flex: none;
+            border-radius: 12px;
+            display: grid;
+            place-items: center;
+            font-family: var(--f-display);
+            font-size: 1.7rem;
+            color: var(--cream);
+            border: 1px solid rgba(255, 255, 255, .16);
+            background: rgba(0, 0, 0, .22);
+            transition: var(--t);
+        }
+
+        .code-slot.filled {
+            border-color: var(--rose);
+            color: #fff;
+            background: rgba(255, 107, 157, .14);
+            box-shadow: 0 0 22px rgba(255, 107, 157, .18)
+        }
+
+        .keypad {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            max-width: 280px
+        }
+
+        .key {
+            height: 50px;
+            border-radius: 12px;
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, .13);
+            background: rgba(255, 255, 255, .05);
+            color: var(--cream);
+            font-family: var(--f-body);
+            font-size: 1.08rem;
+            font-weight: 600;
+            transition: var(--t);
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .key:hover {
+            background: rgba(255, 107, 157, .16);
+            border-color: rgba(255, 107, 157, .4)
+        }
+
+        .key:active {
+            transform: scale(.95)
+        }
+
+        .key.wide {
+            grid-column: span 1;
+            font-size: .8rem;
+            letter-spacing: .06em
+        }
+
+        .shake {
+            animation: shake .42s
+        }
+
+        @keyframes shake {
+
+            10%,
+            90% {
+                transform: translateX(-2px)
+            }
+
+            20%,
+            80% {
+                transform: translateX(4px)
+            }
+
+            30%,
+            50%,
+            70% {
+                transform: translateX(-7px)
+            }
+
+            40%,
+            60% {
+                transform: translateX(7px)
+            }
+        }
+
+        /* ---- desafio: escolha ---- */
+        .options {
+            display: grid;
+            gap: 11px
+        }
+
+        .opt {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            width: 100%;
+            text-align: left;
+            padding: 15px 17px;
+            border-radius: 14px;
+            cursor: pointer;
+            border: 1px solid var(--border);
+            background: rgba(255, 255, 255, .03);
+            color: var(--cream);
+            font-family: var(--f-body);
+            font-size: .96rem;
+            transition: var(--t);
+        }
+
+        .opt:hover {
+            border-color: rgba(255, 107, 157, .45);
+            background: rgba(255, 107, 157, .09);
+            transform: translateX(3px)
+        }
+
+        .opt .letter {
+            flex: none;
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            display: grid;
+            place-items: center;
+            font-family: var(--f-display);
+            font-size: .9rem;
+            color: var(--gold);
+            border: 1px solid rgba(232, 195, 158, .3);
+        }
+
+        .opt.wrong {
+            border-color: rgba(255, 120, 120, .6);
+            background: rgba(255, 80, 80, .1)
+        }
+
+        /* ---- desafio: segurar ---- */
+        .hold-wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 14px
+        }
+
+        .hold-btn {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            border: 0;
+            background: none;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: none;
+        }
+
+        .hold-btn svg {
+            position: absolute;
+            inset: 0;
+            transform: rotate(-90deg);
+            width: 150px;
+            height: 150px
+        }
+
+        .hold-btn .track {
+            fill: none;
+            stroke: rgba(255, 255, 255, .12);
+            stroke-width: 4
+        }
+
+        .hold-btn .bar {
+            fill: none;
+            stroke: url(#holdGrad);
+            stroke-width: 5;
+            stroke-linecap: round;
+            transition: stroke-dashoffset .12s linear;
+        }
+
+        .hold-heart {
+            position: absolute;
+            inset: 0;
+            display: grid;
+            place-items: center;
+            font-size: 3.1rem;
+            color: var(--rose);
+            filter: drop-shadow(0 0 18px rgba(255, 107, 157, .45));
+            transition: transform .18s;
+        }
+
+        .hold-btn.pressing .hold-heart {
+            transform: scale(1.12);
+            color: #ff8fb4
+        }
+
+        .hold-label {
+            font-size: .78rem;
+            letter-spacing: .18em;
+            text-transform: uppercase;
+            color: var(--muted)
+        }
+
+        /* ---- desafio: palavra ---- */
+        .word-slots {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 4px 0 18px;
+            min-height: 52px
+        }
+
+        .word-slot {
+            width: 38px;
+            height: 48px;
+            border-radius: 9px;
+            display: grid;
+            place-items: center;
+            border: 1px solid rgba(255, 255, 255, .10);
+            border-bottom: 2px solid rgba(255, 255, 255, .26);
+            background: rgba(0, 0, 0, .16);
+            font-family: var(--f-display);
+            font-size: 1.35rem;
+            color: var(--cream);
+            transition: var(--t);
+        }
+
+        .word-slot.filled {
+            border-color: rgba(255, 107, 157, .55);
+            color: #fff;
+            background: rgba(255, 107, 157, .14)
+        }
+
+        .letters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 9px;
+            justify-content: center
+        }
+
+        .letter-tile {
+            width: 46px;
+            height: 50px;
+            border-radius: 11px;
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, .16);
+            background: rgba(255, 255, 255, .05);
+            color: var(--cream);
+            font-family: var(--f-body);
+            font-size: 1.04rem;
+            font-weight: 600;
+            transition: var(--t);
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .letter-tile:hover {
+            background: rgba(255, 107, 157, .16);
+            border-color: rgba(255, 107, 157, .45)
+        }
+
+        .letter-tile:active {
+            transform: scale(.93)
+        }
+
+        .letter-tile.used {
+            opacity: .22;
+            pointer-events: none;
+            transform: scale(.94)
+        }
+
+        @media (max-width:420px) {
+            .word-slot {
+                width: 30px;
+                height: 44px;
+                font-size: 1.1rem
+            }
+
+            .letter-tile {
+                width: 38px;
+                height: 44px;
+                font-size: .94rem
+            }
+
+            .letters {
+                gap: 7px
+            }
+
+            .code-slot {
+                width: 52px;
+                height: 60px
+            }
+        }
+
+        /* ---- desafio: deslizar ---- */
+        .slide-track {
+            position: relative;
+            height: 64px;
+            border-radius: 99px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, .14);
+            background: rgba(0, 0, 0, .28);
+            touch-action: none;
+            user-select: none;
+            max-width: 400px;
+        }
+
+        .slide-fill {
+            position: absolute;
+            inset: 0;
+            width: 0;
+            background: linear-gradient(90deg, rgba(201, 42, 99, .5), rgba(255, 107, 157, .55));
+        }
+
+        .slide-text {
+            position: absolute;
+            inset: 0;
+            display: grid;
+            place-items: center;
+            padding-left: 34px;
+            font-size: .78rem;
+            letter-spacing: .18em;
+            text-transform: uppercase;
+            color: var(--muted);
+            pointer-events: none;
+        }
+
+        .slide-knob {
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            cursor: grab;
+            background: linear-gradient(135deg, var(--gold-hi), var(--gold));
+            color: #2a0d16;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, .35);
+            font-size: 1.1rem;
+            touch-action: none;
+        }
+
+        .slide-knob:active {
+            cursor: grabbing
+        }
+
+        /* =========================================================================
+   6. BLOCOS DESBLOQUEADOS
+   ========================================================================= */
+        .bloco {
+            position: relative;
+            margin: 22px 0 46px;
+            padding: 34px 30px;
+            border-radius: 22px;
+            border: 1px solid rgba(255, 255, 255, .08);
+            background: linear-gradient(180deg, rgba(255, 255, 255, .045), rgba(255, 255, 255, .015));
+            box-shadow: var(--sh);
+            overflow: hidden;
+        }
+
+        .bloco::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(232, 195, 158, .55), transparent);
+        }
+
+        .bloco.locked {
+            display: none
+        }
+
+        .bloco.reveal {
+            animation: blocoOpen .85s cubic-bezier(.2, .7, .2, 1) both
+        }
+
+        @keyframes blocoOpen {
+            0% {
+                opacity: 0;
+                transform: translateY(26px) scale(.985);
+                filter: blur(6px)
+            }
+
+            100% {
+                opacity: 1;
+                transform: none;
+                filter: none
+            }
+        }
+
+        .bloco-kicker {
+            font-size: .68rem;
+            letter-spacing: .26em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 10px;
+            display: block
+        }
+
+        .bloco h2 {
+            font-size: clamp(1.5rem, 4.4vw, 2.1rem);
+            font-style: italic;
+            margin: 0 0 6px
+        }
+
+        .bloco .lead {
+            color: var(--muted);
+            max-width: 620px;
+            margin-bottom: 26px
+        }
+
+        @media (max-width:520px) {
+            .bloco {
+                padding: 26px 18px;
+                border-radius: 18px
+            }
+        }
+
+        /* linha do tempo */
+        .timeline {
+            position: relative;
+            margin-top: 8px;
+            padding-left: 30px
+        }
+
+        .timeline::before {
+            content: "";
+            position: absolute;
+            left: 9px;
+            top: 6px;
+            bottom: 6px;
+            width: 1px;
+            background: linear-gradient(180deg, var(--rose), rgba(232, 195, 158, .5), transparent)
+        }
+
+        .tl-item {
+            position: relative;
+            padding: 0 0 26px 4px;
+            opacity: 0;
+            transform: translateX(-10px)
+        }
+
+        .tl-item.in {
+            opacity: 1;
+            transform: none;
+            transition: opacity .7s, transform .7s
+        }
+
+        .tl-item::before {
+            content: "\F417";
+            font-family: "bootstrap-icons";
+            position: absolute;
+            left: -30px;
+            top: 2px;
+            width: 20px;
+            height: 20px;
+            display: grid;
+            place-items: center;
+            border-radius: 50%;
+            background: #25101b;
+            border: 1px solid rgba(255, 107, 157, .5);
+            color: var(--rose);
+            font-size: 9px;
+            box-shadow: 0 0 16px rgba(255, 107, 157, .3);
+        }
+
+        .tl-date {
+            font-size: .68rem;
+            letter-spacing: .2em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 2px
+        }
+
+        .tl-title {
+            font-family: var(--f-display);
+            font-size: 1.1rem;
+            margin-bottom: 3px
+        }
+
+        .tl-text {
+            color: var(--muted);
+            font-size: .94rem;
+            margin: 0
+        }
+
+        /* contador */
+        .counter {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin: 6px 0 10px;
+        }
+
+        .cbox {
+            border-radius: 14px;
+            border: 1px solid var(--border);
+            background: rgba(0, 0, 0, .24);
+            padding: 14px 6px;
+            text-align: center;
+        }
+
+        .cnum {
+            font-family: var(--f-display);
+            font-size: clamp(1.5rem, 6vw, 2.3rem);
+            line-height: 1;
+            color: var(--gold-hi);
+            font-variant-numeric: tabular-nums
+        }
+
+        .clab {
+            font-size: .6rem;
+            letter-spacing: .16em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-top: 6px
+        }
+
+        @media (max-width:420px) {
+            .counter {
+                gap: 6px
+            }
+
+            .cbox {
+                padding: 11px 3px
+            }
+
+            .clab {
+                font-size: .52rem;
+                letter-spacing: .08em
+            }
+        }
+
+        .chegou {
+            text-align: center;
+            padding: 20px 12px;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 107, 157, .4);
+            background: rgba(255, 107, 157, .1);
+        }
+
+        .chegou .big {
+            font-family: var(--f-display);
+            font-style: italic;
+            font-size: clamp(1.6rem, 6vw, 2.2rem);
+            color: var(--gold-hi);
+            animation: glowPulse 2.4s ease-in-out infinite
+        }
+
+        @keyframes glowPulse {
+
+            0%,
+            100% {
+                text-shadow: 0 0 18px rgba(255, 107, 157, .25)
+            }
+
+            50% {
+                text-shadow: 0 0 34px rgba(255, 107, 157, .6)
+            }
+        }
+
+        /* motivos */
+        .motivos {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 14px;
+            margin-top: 6px
+        }
+
+        .motivo {
+            padding: 20px 18px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            background: rgba(255, 255, 255, .03);
+            transition: var(--t);
+            opacity: 0;
+            transform: translateY(14px);
+        }
+
+        .motivo.in {
+            opacity: 1;
+            transform: none;
+            transition: opacity .6s, transform .6s, border-color var(--t), background var(--t), box-shadow var(--t)
+        }
+
+        .motivo:hover {
+            border-color: rgba(232, 195, 158, .5);
+            background: rgba(232, 195, 158, .07);
+            transform: translateY(-4px);
+            box-shadow: 0 16px 34px rgba(0, 0, 0, .35)
+        }
+
+        .motivo i {
+            font-size: 1.5rem;
+            color: var(--rose);
+            display: block;
+            margin-bottom: 10px
+        }
+
+        .motivo p {
+            margin: 0;
+            font-size: .95rem;
+            color: rgba(255, 245, 240, .86)
+        }
+
+        /* bilhete */
+        .bilhete {
+            position: relative;
+            padding: 40px 30px 32px;
+            border-radius: 8px;
+            background:
+                repeating-linear-gradient(180deg, rgba(120, 80, 60, .05) 0 27px, rgba(120, 80, 60, .0) 27px 28px),
+                linear-gradient(160deg, #fdf6ec, #f6e8d6);
+            color: #3b2318;
+            box-shadow: 0 22px 50px rgba(0, 0, 0, .45);
+            transform: rotate(-.6deg);
+        }
+
+        .bilhete::after {
+            content: "";
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%) rotate(-2deg);
+            width: 120px;
+            height: 26px;
+            background: linear-gradient(90deg, rgba(255, 107, 157, .55), rgba(232, 195, 158, .75));
+            opacity: .75;
+        }
+
+        .bilhete p {
+            font-family: var(--f-hand);
+            font-size: 1.42rem;
+            line-height: 1.55;
+            margin: 0 0 .7rem;
+            color: #3b2318
+        }
+
+        .bilhete .sig {
+            font-family: var(--f-hand);
+            font-size: 1.2rem;
+            color: #7a4a3a;
+            text-align: right;
+            margin-top: 10px
+        }
+
+        @media (max-width:520px) {
+            .bilhete {
+                padding: 34px 20px 26px
+            }
+
+            .bilhete p {
+                font-size: 1.24rem
+            }
+        }
+
+        /* chips */
+        .chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 4px
+        }
+
+        .chip {
+            padding: 10px 16px;
+            border-radius: 99px;
+            font-size: .9rem;
+            border: 1px solid rgba(255, 107, 157, .3);
+            background: rgba(255, 107, 157, .08);
+            color: rgba(255, 245, 240, .92);
+            opacity: 0;
+            transform: scale(.92);
+        }
+
+        .chip.in {
+            opacity: 1;
+            transform: none;
+            transition: opacity .5s, transform .5s
+        }
+
+        .chip i {
+            color: var(--rose);
+            margin-right: 6px;
+            font-size: .8rem
+        }
+
+        /* =========================================================================
+   7. O PEDIDO
+   ========================================================================= */
+        .pedido-box {
+            text-align: center;
+            padding: 14px 6px 8px
+        }
+
+        .pedido-box h2 {
+            font-size: clamp(1.9rem, 7vw, 3.1rem);
+            font-style: italic;
+            margin: 0 0 10px
+        }
+
+        .pedido-box .sub {
+            color: var(--muted);
+            margin-bottom: 30px
+        }
+
+        .botoes-area {
+            position: relative;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            justify-content: center;
+            align-items: center;
+            min-height: 120px;
+            padding: 10px
+        }
+
+        .btn-sim {
+            padding: 18px 54px;
+            border-radius: 99px;
+            border: 0;
+            cursor: pointer;
+            font-family: var(--f-body);
+            font-size: 1.06rem;
+            font-weight: 700;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            color: #2a0d16;
+            background: linear-gradient(135deg, #ffe4ef, #ff9dbb 45%, var(--rose));
+            box-shadow: 0 16px 40px rgba(255, 107, 157, .35), inset 0 1px 0 rgba(255, 255, 255, .65);
+            transition: transform .28s cubic-bezier(.34, 1.56, .64, 1), box-shadow .3s;
+        }
+
+        .btn-sim:hover {
+            box-shadow: 0 22px 54px rgba(255, 107, 157, .5)
+        }
+
+        .btn-nao {
+            padding: 15px 34px;
+            border-radius: 99px;
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, .22);
+            background: rgba(255, 255, 255, .05);
+            color: rgba(255, 245, 240, .85);
+            font-family: var(--f-body);
+            font-size: .94rem;
+            font-weight: 600;
+            transition: transform .22s ease, background .22s, left .3s cubic-bezier(.2, .8, .3, 1), top .3s cubic-bezier(.2, .8, .3, 1);
+            white-space: nowrap;
+        }
+
+        .btn-nao.floating {
+            position: absolute;
+            z-index: 5
+        }
+
+        .celebration {
+            display: none;
+            text-align: center
+        }
+
+        .celebration.show {
+            display: block;
+            animation: fadeUp .7s both
+        }
+
+        .celebration .big {
+            font-family: var(--f-display);
+            font-style: italic;
+            font-size: clamp(2.1rem, 8vw, 3.6rem);
+            line-height: 1.15;
+            margin: 6px 0 12px;
+            background: linear-gradient(180deg, #fff9f6, var(--gold) 90%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .celebration p {
+            color: var(--muted);
+            max-width: 520px;
+            margin: 0 auto 26px
+        }
+
+        /* =========================================================================
+   8. CARTA / ENVELOPE
+   ========================================================================= */
+        .carta-section {
+            padding: 20px 0 70px;
+            display: none
+        }
+
+        .carta-section.show {
+            display: block
+        }
+
+        .envelope-wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px
+        }
+
+        .envelope {
+            position: relative;
+            width: min(340px, 86vw);
+            height: 220px;
+            cursor: pointer;
+            perspective: 1200px;
+            filter: drop-shadow(0 24px 40px rgba(0, 0, 0, .5));
+            transition: transform var(--t);
+        }
+
+        .envelope:hover {
+            transform: translateY(-5px)
+        }
+
+        .env-body {
+            position: absolute;
+            inset: 0;
+            border-radius: 10px;
+            background: linear-gradient(160deg, #f4e3cb, #e2c9a8);
+            border: 1px solid rgba(120, 80, 50, .25);
+            overflow: hidden;
+        }
+
+        /* dobras da frente do envelope (desenhadas, escalam com qualquer largura) */
+        .env-body::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(200deg, #eed9b9, #e0c5a3);
+            clip-path: polygon(0 100%, 0 42%, 50% 96%, 100% 42%, 100% 100%);
+        }
+
+        .env-body::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: rgba(120, 80, 50, .06);
+            clip-path: polygon(0 100%, 50% 96%, 100% 100%, 100% 100%, 0 100%);
+        }
+
+        .env-seal {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 6;
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            background: radial-gradient(circle at 35% 30%, #e0416f, #a81f4b);
+            color: #ffd9e4;
+            font-size: 1.15rem;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, .4);
+            transition: var(--t);
+        }
+
+        .envelope.open .env-seal {
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(.6)
+        }
+
+        .env-flap {
+            position: absolute;
+            inset: 0;
+            z-index: 5;
+            background: linear-gradient(180deg, #fbf0dc, #f2e0c4);
+            clip-path: polygon(0 0, 100% 0, 50% 64%);
+            transform-origin: top center;
+            transition: transform .7s cubic-bezier(.4, 0, .2, 1), opacity .5s ease;
+            filter: drop-shadow(0 3px 4px rgba(120, 80, 50, .18));
+        }
+
+        .envelope.open .env-flap {
+            transform: translateY(-26%) scaleY(.55);
+            opacity: 0;
+            z-index: 1
+        }
+
+        @media (max-width:400px) {
+            .envelope {
+                height: 196px
+            }
+        }
+
+        .env-label {
+            position: absolute;
+            bottom: 16px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            z-index: 4;
+            font-family: var(--f-hand);
+            font-size: 1.35rem;
+            color: #7a4a3a;
+        }
+
+        .envelope-hint {
+            font-size: .74rem;
+            letter-spacing: .2em;
+            text-transform: uppercase;
+            color: var(--muted);
+            animation: blinkSoft 2.6s ease-in-out infinite
+        }
+
+        @keyframes blinkSoft {
+
+            0%,
+            100% {
+                opacity: .45
+            }
+
+            50% {
+                opacity: 1
+            }
+        }
+
+        .letter {
+            width: 100%;
+            max-width: 660px;
+            margin: 8px auto 0;
+            border-radius: 10px;
+            padding: 40px 36px;
+            color: #38221a;
+            background:
+                repeating-linear-gradient(180deg, rgba(140, 100, 80, .05) 0 31px, rgba(140, 100, 80, 0) 31px 32px),
+                linear-gradient(165deg, #fdf7ee, #f5e6d3);
+            box-shadow: 0 26px 60px rgba(0, 0, 0, .5);
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(-14px);
+            transition: max-height 1s ease, opacity .8s ease .1s, transform .8s ease .1s, padding 1s ease;
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+
+        .letter.open {
+            max-height: 2400px;
+            opacity: 1;
+            transform: none;
+            padding-top: 40px;
+            padding-bottom: 40px
+        }
+
+        .letter p {
+            font-family: var(--f-hand);
+            font-size: 1.4rem;
+            line-height: 32px;
+            margin: 0 0 1.4rem;
+            color: #38221a;
+            white-space: pre-line
+        }
+
+        .letter .sig {
+            text-align: right;
+            font-size: 1.3rem;
+            color: #7d4b39;
+            margin-top: 20px
+        }
+
+        @media (max-width:520px) {
+            .letter {
+                padding-left: 20px;
+                padding-right: 20px
+            }
+
+            .letter p {
+                font-size: 1.2rem;
+                line-height: 30px
+            }
+        }
+
+        /* =========================================================================
+   9. TOAST, MÚSICA, RODAPÉ
+   ========================================================================= */
+        .toasts {
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 20px;
+            z-index: 90;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            pointer-events: none;
+            padding: 0 14px
+        }
+
+        .toast-msg {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            max-width: 420px;
+            padding: 12px 18px;
+            border-radius: 99px;
+            background: rgba(35, 14, 24, .95);
+            border: 1px solid rgba(232, 195, 158, .35);
+            color: var(--cream);
+            font-size: .86rem;
+            box-shadow: 0 14px 34px rgba(0, 0, 0, .5);
+            animation: toastIn .45s cubic-bezier(.2, .9, .3, 1.3) both;
+        }
+
+        .toast-msg.out {
+            animation: toastOut .4s both
+        }
+
+        .toast-msg i {
+            color: var(--gold);
+            font-size: 1rem
+        }
+
+        @keyframes toastIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px) scale(.95)
+            }
+
+            to {
+                opacity: 1;
+                transform: none
+            }
+        }
+
+        @keyframes toastOut {
+            to {
+                opacity: 0;
+                transform: translateY(14px) scale(.96)
+            }
+        }
+
+        .music-btn {
+            position: fixed;
+            right: 16px;
+            bottom: 16px;
+            z-index: 80;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: grid;
+            place-items: center;
+            font-size: 1.15rem;
+            color: var(--gold);
+            border: 1px solid rgba(232, 195, 158, .35);
+            background: rgba(30, 12, 21, .9);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 26px rgba(0, 0, 0, .4);
+            transition: var(--t);
+        }
+
+        .music-btn:hover {
+            color: #fff;
+            border-color: var(--rose)
+        }
+
+        .music-btn.playing {
+            color: var(--rose);
+            border-color: var(--rose);
+            animation: spinSlow 6s linear infinite
+        }
+
+        @keyframes spinSlow {
+            to {
+                transform: rotate(360deg)
+            }
+        }
+
+        footer {
+            padding: 46px 20px 70px;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, .06);
+            margin-top: 20px
+        }
+
+        footer .date {
+            font-family: var(--f-display);
+            font-style: italic;
+            font-size: clamp(.95rem, 4.2vw, 1.15rem);
+            color: var(--gold);
+            max-width: 100%;
+            margin: 0 auto
+        }
+
+        footer .heart {
+            color: var(--rose);
+            display: inline-block;
+            animation: beat 1.6s ease-in-out infinite;
+            margin: 0 6px
+        }
+
+        @keyframes beat {
+
+            0%,
+            100% {
+                transform: scale(1)
+            }
+
+            18% {
+                transform: scale(1.18)
+            }
+
+            36% {
+                transform: scale(1)
+            }
+
+            54% {
+                transform: scale(1.12)
+            }
+        }
+
+        footer .reset {
+            background: none;
+            border: 0;
+            color: rgba(255, 255, 255, .22);
+            font-size: .7rem;
+            letter-spacing: .14em;
+            text-transform: uppercase;
+            cursor: pointer;
+            margin-top: 16px
+        }
+
+        footer .reset:hover {
+            color: rgba(255, 107, 157, .7)
+        }
+
+        #confetti-canvas {
+            position: fixed;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 95
+        }
+
+        /* =========================================================================
+   10. ACESSIBILIDADE / MOVIMENTO REDUZIDO
+   ========================================================================= */
+        :focus-visible {
+            outline: 2px solid var(--rose);
+            outline-offset: 3px
+        }
+
+        @media (prefers-reduced-motion:reduce) {
+            html {
+                scroll-behavior: auto
+            }
+
+            *,
+            *::before,
+            *::after {
+                animation-duration: .001ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: .001ms !important
+            }
+
+            .hero-hearts {
+                display: none
+            }
+        }
+
+        /* ==========================================================
+   BALÕES DE FOTOS — NOSSA HISTÓRIA
+   ========================================================== */
+
+        #bloco-historia {
+            overflow: hidden;
+        }
+
+        /* Container */
+        .photo-bubbles {
+            position: relative;
+            width: 100%;
+            max-width: 390px;
+            height: 520px;
+            margin: 25px auto 35px;
+        }
+
+        /* Cada foto */
+        .photo-bubble {
+            position: absolute;
+
+            width: 118px;
+            padding: 6px 6px 9px;
+
+            background: #fffaf7;
+            border-radius: 4px;
+
+            box-shadow:
+                0 12px 30px rgba(0, 0, 0, .38),
+                0 0 20px rgba(255, 107, 157, .10);
+
+            transform: rotate(var(--rot));
+            z-index: 2;
+
+            animation: photoFloat var(--speed) ease-in-out infinite;
+            animation-delay: var(--delay);
+
+            transition:
+                transform .4s ease,
+                box-shadow .4s ease;
+        }
+
+        /* Imagem */
+        .photo-bubble img {
+            display: block;
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            border-radius: 2px;
+        }
+
+        /* Legenda */
+        .photo-caption {
+            display: block;
+
+            color: #3a2028;
+            font-family: var(--f-hand);
+
+            font-size: .9rem;
+            line-height: 1;
+
+            text-align: center;
+
+            padding-top: 7px;
+        }
+
+        /* coração */
+        .photo-bubble::after {
+            content: "♥";
+
+            position: absolute;
+            top: -11px;
+            right: -8px;
+
+            color: var(--rose);
+            font-size: 16px;
+
+            filter:
+                drop-shadow(0 0 7px rgba(255, 107, 157, .5));
+        }
+
+        /* ==========================================================
+   POSIÇÕES — CELULAR
+   ========================================================== */
+
+        .photo-bubble:nth-child(1) {
+            --rot: -7deg;
+            --speed: 5.8s;
+            --delay: 0s;
+
+            left: 4px;
+            top: 8px;
+
+            z-index: 3;
+        }
+
+        .photo-bubble:nth-child(2) {
+            --rot: 6deg;
+            --speed: 6.4s;
+            --delay: -.8s;
+
+            right: 5px;
+            top: 45px;
+
+            z-index: 2;
+        }
+
+        .photo-bubble:nth-child(3) {
+            --rot: -4deg;
+            --speed: 6s;
+            --delay: -1.5s;
+
+            left: 42px;
+            top: 190px;
+
+            z-index: 4;
+        }
+
+        .photo-bubble:nth-child(4) {
+            --rot: 7deg;
+            --speed: 5.6s;
+            --delay: -2.1s;
+
+            right: 35px;
+            top: 230px;
+
+            z-index: 2;
+        }
+
+        .photo-bubble:nth-child(5) {
+            --rot: -6deg;
+            --speed: 6.5s;
+            --delay: -1.2s;
+
+            left: 8px;
+            top: 355px;
+
+            z-index: 3;
+        }
+
+        .photo-bubble:nth-child(6) {
+            --rot: 5deg;
+            --speed: 5.9s;
+            --delay: -2.8s;
+
+            right: 10px;
+            top: 390px;
+
+            z-index: 2;
+        }
+
+        /* ==========================================================
+   ANIMAÇÃO
+   ========================================================== */
+
+        @keyframes photoFloat {
+
+            0%,
+            100% {
+                margin-top: 0;
+            }
+
+            50% {
+                margin-top: -7px;
+            }
+        }
+
+        /* ==========================================================
+   CELULARES PEQUENOS
+   ========================================================== */
+
+        @media (max-width: 380px) {
+
+            .photo-bubbles {
+                height: 475px;
+                max-width: 350px;
+            }
+
+            .photo-bubble {
+                width: 102px;
+            }
+
+            .photo-bubble:nth-child(1) {
+                left: 0;
+            }
+
+            .photo-bubble:nth-child(2) {
+                right: 0;
+            }
+
+            .photo-bubble:nth-child(3) {
+                left: 32px;
+                top: 175px;
+            }
+
+            .photo-bubble:nth-child(4) {
+                right: 25px;
+                top: 210px;
+            }
+
+            .photo-bubble:nth-child(5) {
+                left: 0;
+                top: 325px;
+            }
+
+            .photo-bubble:nth-child(6) {
+                right: 0;
+                top: 355px;
+            }
+        }
+
+        /* ==========================================================
+   TELAS MAIORES
+   ========================================================== */
+
+        @media (min-width: 768px) {
+
+            .photo-bubbles {
+                max-width: 650px;
+                height: 570px;
+            }
+
+            .photo-bubble {
+                width: 145px;
+            }
+
+            .photo-bubble:nth-child(1) {
+                left: 15px;
+                top: 10px;
+            }
+
+            .photo-bubble:nth-child(2) {
+                right: 15px;
+                top: 40px;
+            }
+
+            .photo-bubble:nth-child(3) {
+                left: 90px;
+                top: 190px;
+            }
+
+            .photo-bubble:nth-child(4) {
+                right: 90px;
+                top: 230px;
+            }
+
+            .photo-bubble:nth-child(5) {
+                left: 25px;
+                top: 385px;
+            }
+
+            .photo-bubble:nth-child(6) {
+                right: 25px;
+                top: 420px;
+            }
+
+        }
+    </style>
+</head>
+
+
+<body>
+
+    <!-- confete -->
+    <canvas id="confetti-canvas" aria-hidden="true"></canvas>
+
+    <!-- ===================== BARRA DE PROGRESSO ===================== -->
+    <div class="progress-shell">
+        <div class="progress-inner">
+            <span class="progress-counter" id="progress-counter">Etapa <b>1</b> de 5</span>
+            <div class="progress-track">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+            <span class="progress-counter" id="progress-pct">0%</span>
+        </div>
+    </div>
+
+    <!-- ===================== CAPA ===================== -->
+    <header class="hero" id="hero">
+        <div class="hero-hearts" id="hero-hearts" aria-hidden="true"></div>
+        <div class="hero-content">
+            <span class="eyebrow"><i class="bi bi-envelope-heart"></i> uma mensagem para você</span>
+            <h1>Para você,<br><span class="name" id="hero-name">Meu Amor</span></h1>
+            <p class="type-line"><span id="typewriter"></span><span class="cursor"></span></p>
+            <button class="btn-ornate" id="start-btn" type="button">
+                <i class="bi bi-key"></i> Começar
+            </button>
+        </div>
+        <div class="scroll-hint" aria-hidden="true"><span>role</span><span class="bar"></span></div>
+    </header>
+
+    <!-- ===================== JORNADA ===================== -->
+    <main class="wrap" id="jornada">
+
+        <div class="markers" id="markers" aria-label="Progresso das etapas"></div>
+
+        <section class="stages" aria-label="Etapas">
+
+            <!-- ETAPA 1 -->
+            <div class="stage" id="stage-1" data-stage="1"></div>
+
+            <!-- CONTEÚDO LIBERADO PELA ETAPA 1 -->
+            <section class="bloco locked" id="bloco-historia" aria-label="Nossa história">
+                <span class="bloco-kicker">Primeira descoberta</span>
+                <h2>Nossa história</h2>
+                <p class="lead">Todo casal tem uma data que não sai da cabeça. A nossa começou assim:</p>
+                <!-- ===================== FOTOS DO CASAL ===================== -->
+                <div class="photo-bubbles">
+
+                    <div class="photo-bubble">
+                        <img src="Namoro/Nos dois.jpeg" alt="Nós dois">
+                        <span class="photo-caption">nós dois ❤️</span>
+                    </div>
+
+                    <div class="photo-bubble">
+                        <img src="Namoro/Lugar favorito.jpeg" alt="Nossa foto">
+                        <span class="photo-caption">meu lugar favorito</span>
+                    </div>
+
+                    <div class="photo-bubble">
+                        <img src="Namoro/Que mulher.jpeg" alt="Nossa foto">
+                        <span class="photo-caption">Que mulher gataaa...</span>
+                    </div>
+
+                    <div class="photo-bubble">
+                        <img src="Namoro/So nos.jpeg" alt="Nossa foto">
+                        <span class="photo-caption">só nós</span>
+                    </div>
+
+                    <div class="photo-bubble">
+                        <img src="Namoro/Minha pessoa.jpeg" alt="Nossa foto">
+                        <span class="photo-caption">minha pessoa</span>
+                    </div>
+
+                    <div class="photo-bubble">
+                        <img src="Namoro/Para sempre.jpeg" alt="Nossa foto">
+                        <span class="photo-caption">para sempre ❤️</span>
+                    </div>
+                </div>
+                <div class="timeline" id="timeline">
+                    <div class="tl-item">
+                        <div class="tl-date">O começo</div>
+                        <div class="tl-title">O dia em que você apareceu</div>
+                        <p class="tl-text">Eu não sabia ainda, mas aquele dia ia mudar tudo. Bastou uma conversa para eu
+                            querer mais.</p>
+                    </div>
+                    <div class="tl-item">
+                        <div class="tl-date">Depois disso</div>
+                        <div class="tl-title">As conversas que não acabavam</div>
+                        <p class="tl-text">Mensagem de bom dia, de boa noite, e aquele "só mais cinco minutinhos" que
+                            virava madrugada.</p>
+                    </div>
+                    <div class="tl-item">
+                        <div class="tl-date">A primeira vez que ficamos juntos</div>
+                        <div class="tl-title">Quando eu tive certeza</div>
+                        <p class="tl-text">Te ver de perto foi diferente de tudo. Eu voltei pra casa sorrindo sozinho,
+                            que nem bobo.</p>
+                    </div>
+                    <div class="tl-item">
+                        <div class="tl-date">Hoje</div>
+                        <div class="tl-title">Meu lugar favorito</div>
+                        <p class="tl-text">Não é um lugar. É do seu lado. E é isso que eu quero oficializar.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ETAPA 2 -->
+            <div class="stage" id="stage-2" data-stage="2"></div>
+
+            <!-- CONTEÚDO LIBERADO PELA ETAPA 2 -->
+            <section class="bloco locked" id="bloco-contador" aria-label="Contagem regressiva">
+                <span class="bloco-kicker">Contagem regressiva</span>
+                <h2>Falta pouco</h2>
+                <p class="lead">O dia 27 de novembro de 2026 já está marcado. A partir daí, a contagem é sua.</p>
+                <div class="counter" id="counter" role="timer" aria-live="off">
+                    <div class="cbox">
+                        <div class="cnum" id="c-dias">--</div>
+                        <div class="clab">dias</div>
+                    </div>
+                    <div class="cbox">
+                        <div class="cnum" id="c-horas">--</div>
+                        <div class="clab">horas</div>
+                    </div>
+                    <div class="cbox">
+                        <div class="cnum" id="c-min">--</div>
+                        <div class="clab">minutos</div>
+                    </div>
+                    <div class="cbox">
+                        <div class="cnum" id="c-seg">--</div>
+                        <div class="clab">segundos</div>
+                    </div>
+                </div>
+                <div class="chegou" id="chegou" hidden>
+                    <div class="big">Chegou o dia.</div>
+                    <p class="muted mb-0 mt-2">E eu estou aqui, com o coração na mão.</p>
+                </div>
+            </section>
+
+            <section class="bloco locked" id="bloco-motivos" aria-label="Motivos">
+                <span class="bloco-kicker">Segunda descoberta</span>
+                <h2>Por que eu escolho você</h2>
+                <p class="lead">Não é uma coisa só. É um conjunto de detalhes que ninguém mais tem.</p>
+                <div class="motivos" id="motivos">
+                    <div class="motivo"><i class="bi bi-heart"></i>
+                        <p>Pelo seu sorriso, que consegue consertar qualquer dia ruim meu.</p>
+                    </div>
+                    <div class="motivo"><i class="bi bi-stars"></i>
+                        <p>Porque com você até o tédio fica divertido.</p>
+                    </div>
+                    <div class="motivo"><i class="bi bi-sunrise"></i>
+                        <p>Pela forma como você enxerga o mundo — e me leva junto.</p>
+                    </div>
+                    <div class="motivo"><i class="bi bi-chat-heart"></i>
+                        <p>Porque eu posso falar de tudo com você, sem medo de parecer bobo.</p>
+                    </div>
+                    <div class="motivo"><i class="bi bi-hand-index-thumb"></i>
+                        <p>Porque você fica do meu lado, inclusive nos dias em que eu não estou tão legal.</p>
+                    </div>
+                    <div class="motivo"><i class="bi bi-house-heart"></i>
+                        <p>Porque "casa" para mim virou sinônimo de você.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ETAPA 3 -->
+            <div class="stage" id="stage-3" data-stage="3"></div>
+
+            <!-- CONTEÚDO LIBERADO PELA ETAPA 3 -->
+            <section class="bloco locked" id="bloco-bilhete" aria-label="Bilhete">
+                <span class="bloco-kicker">Bilhete guardado</span>
+                <div class="bilhete">
+                    <p>Se você chegou até aqui, é porque foi atrás. E é exatamente isso que eu amo em você: a
+                        curiosidade de saber o que tem do outro lado da porta.</p>
+                    <p>Você está quase lá amor. Continua.</p>
+                    <p>Eu te amo muito meu amor!!!</p>
+                    <div class="sig">— seu, sempre</div>
+                </div>
+            </section>
+
+            <!-- ETAPA 4 -->
+            <div class="stage" id="stage-4" data-stage="4"></div>
+
+            <!-- CONTEÚDO LIBERADO PELA ETAPA 4 -->
+            <section class="bloco locked" id="bloco-chips" aria-label="Pequenas coisas">
+                <span class="bloco-kicker">Pequenas coisas</span>
+                <h2>Detalhes que são só seus</h2>
+                <p class="lead">As coisas pequenas, que ninguém percebe, e que eu guardo todas.</p>
+                <div class="chips" id="chips">
+                    <span class="chip"><i class="bi bi-check2"></i>o jeito que você dorme</span>
+                    <span class="chip"><i class="bi bi-check2"></i>suas risadas no meio da frase</span>
+                    <span class="chip"><i class="bi bi-check2"></i>o "oi" de bom dia</span>
+                    <span class="chip"><i class="bi bi-check2"></i>amo o seu jeitinho</span>
+                    <span class="chip"><i class="bi bi-check2"></i>sua mão procurando a minha</span>
+                    <span class="chip"><i class="bi bi-check2"></i>a forma que você fala meu nome</span>
+                    <span class="chip"><i class="bi bi-check2"></i>eu amo ouvir sua voz</span>
+                    <span class="chip"><i class="bi bi-check2"></i>o abraço que não quer terminar</span>
+                </div>
+            </section>
+
+            <!-- ETAPA 5 -->
+            <div class="stage" id="stage-5" data-stage="5"></div>
+
+            <!-- CONTEÚDO LIBERADO PELA ETAPA 5 — O PEDIDO -->
+            <section class="bloco locked" id="bloco-pedido" aria-label="O pedido">
+                <div class="pedido-box" id="pedido-box">
+                    <span class="bloco-kicker">Todas as etapas abertas</span>
+                    <h2>Quer namorar comigo?</h2>
+                    <p class="sub">Sem pressa, sem pressão. Mas o "Não" já está com medo.</p>
+                    <div class="botoes-area" id="botoes-area">
+                        <button class="btn-sim" id="btn-sim" type="button">Sim</button>
+                        <button class="btn-nao" id="btn-nao" type="button">Não</button>
+                    </div>
+                    <p class="muted mb-0" style="font-size:.78rem;letter-spacing:.02em">psiu: o "Não" foge quando você
+                        chega perto.</p>
+                </div>
+                <div class="celebration" id="celebration" aria-live="polite">
+                    <div class="big" id="celebration-title">Ela disse sim!</div>
+                    <p id="celebration-text">Então oficialmente: você é minha namorada. E eu sou o cara mais sortudo do
+                        mundo.</p>
+                    <button class="btn-ornate" id="abrir-carta" type="button"><i class="bi bi-envelope-paper-heart"></i>
+                        Abrir a carta</button>
+                </div>
+            </section>
+
+        </section>
+    </main>
+
+    <!-- ===================== CARTA ===================== -->
+    <section class="carta-section" id="carta-section" aria-label="A carta">
+        <div class="wrap">
+            <div class="envelope-wrap">
+                <p class="muted mb-0" style="text-align:center;max-width:460px">Tem uma última coisa. Fecha os olhos,
+                    respira, e abre.</p>
+                <div class="envelope" id="envelope" role="button" tabindex="0" aria-label="Abrir a carta">
+                    <div class="env-body"></div>
+                    <div class="env-flap"></div>
+                    <div class="env-seal"><i class="bi bi-heart-fill"></i></div>
+                    <div class="env-label">para você</div>
+                </div>
+                <span class="envelope-hint" id="envelope-hint">clique no envelope</span>
+
+                <div class="letter" id="letter">
+                    <p id="letter-body"></p>
+                    <div class="sig" id="letter-sig"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================== RODAPÉ ===================== -->
+    <footer>
+        <div class="date">27 de novembro de 2026 <span class="heart"><i class="bi bi-heart-fill"></i></span> para sempre
+        </div>
+        <p class="muted mt-3 mb-0" style="font-size:.82rem">feito à mão, com um pouco de código e muito carinho e amor
+            ❤️.</p>
+        <button class="reset" id="reset-btn" type="button">reiniciar jornada</button>
+    </footer>
+
+    <div class="toasts" id="toasts" aria-live="polite"></div>
+
+    <button class="music-btn" id="music-btn" type="button" aria-label="Tocar música" aria-pressed="false">
+        <i class="bi bi-music-note-beamed" id="music-icon"></i>
+    </button>
+    <audio id="bg-music" loop preload="none">
+        <source src="musica.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        /* =========================================================================
+           PEDIDO DE NAMORO EM ETAPAS — script
+           -------------------------------------------------------------------------
+           TUDO QUE VOCÊ PRECISA EDITAR ESTÁ NO OBJETO CONFIG, LOGO ABAIXO.
+        
+           1) nomeDela / nomeDele .......... nomes de vocês
+           2) dataDoPedido ................. data e hora do pedido (formato ISO, com fuso)
+           3) fraseHero .................... frase que se escreve sozinha na capa
+           4) textoCarta / assinatura ...... a carta final
+           5) etapas ....................... os 5 desafios, em ordem
+        
+           COMO TROCAR OS DESAFIOS:
+           - tipo "codigo":   resposta = 4 dígitos (ex: "0510" = 05/10). tamanho = 4.
+           - tipo "escolha":  opcoes = lista de textos. correta = índice do certo (começa em 0).
+           - tipo "segurar":  segundos = quanto tempo ela precisa segurar.
+           - tipo "palavra":  resposta = palavra secreta (sem espaço). As peças são geradas sozinhas.
+           - tipo "deslizar": sem dados extras, é só arrastar até o fim.
+           Cada etapa tem "dica" (aparece depois de 2 erros) e "recompensas" (ids dos blocos
+           que ela desbloqueia). Não mude os ids dos blocos sem mudar o HTML.
+           ========================================================================= */
+        const CONFIG = {
+            nomeDela: "Meu Amor",
+            nomeDele: "Richard",
+
+            // 27/11/2026 às 16h no horário de Brasília (-03:00)
+            dataDoPedido: "2026-11-27T16:00:00-03:00",
+
+            fraseHero: "Tem cinco coisas guardadas aqui para você. E eu te amo muito ❤️",
+
+            textoCarta:
+                "Meu amor,\n\n" +
+                "Se você chegou até aqui, foi porque quis. E é isso que eu mais gosto em você: essa curiosidade de ir atrás do que sente que importa.\n\n" +
+                "Eu não sei explicar em quantas palavras o quanto você mudou os meus dias. Só sei que ficou mais fácil acordar, mais leve voltar para casa, e mais bonito pensar no futuro — porque agora tem você nele.\n\n" +
+                "Não te prometo dias perfeitos. Te prometo presença: nos dias bons, nos dias ruins e nos dias em que nem a gente vai saber o que dizer.\n\n" +
+                "Você é minha mulher, futura mãe dos meus filhos, eu quero ser seu alicerce, e quem você pode apoiar, e sempre se sentir segura!.\n\n" +
+                "Então fica assim: hoje, 27 de novembro de 2026, além de ser seu dia mais que especial, seu aniversário, eu também te peço em namoro. E te escolho de novo amanhã, e depois de amanhã, e em todos os que vierem.\n\n" +
+                "Com todo o meu amor,",
+            assinatura: "— seu, para sempre",
+
+            etapas: [
+                {
+                    id: 1,
+                    rotulo: "A chave",
+                    titulo: "O nosso código",
+                    pergunta: "Digite os quatro números da data em que a gente começou a conversar (dia e mês).",
+                    dica: "É o dia e o mês, juntinhos. Dois dígitos do dia, dois do mês. Exemplo: 05 de outubro viraria 0510.",
+                    tipo: "codigo",
+                    resposta: "1910",
+                    tamanho: 4,
+                    recompensaNome: "Nossa história",
+                    recompensas: ["bloco-historia"]
+                },
+                {
+                    id: 2,
+                    rotulo: "A escolha",
+                    titulo: "Uma pergunta fácil",
+                    pergunta: "Entre tantas coisas, o que me faz sorrir mais?",
+                    dica: "Não é o que você faz. É o conjunto completo de tudo.",
+                    tipo: "escolha",
+                    opcoes: [
+                        "Seu sorriso debochado",
+                        "O jeito que você me olha quando acha que eu não vejo",
+                        "Sua risada alta no meio do silêncio",
+                        "Ou todas as respostas anteriores?"
+                    ],
+                    correta: 3,
+                    recompensaNome: "A contagem e os motivos",
+                    recompensas: ["bloco-contador", "bloco-motivos"]
+                },
+                {
+                    id: 3,
+                    rotulo: "O coração",
+                    titulo: "Segure firme",
+                    pergunta: "Segure o coração por 3 segundos. Sem soltar.",
+                    dica: "Um dedo, três segundos. Se soltar, volta do começo! Você consegue amor <3",
+                    tipo: "segurar",
+                    segundos: 3,
+                    recompensaNome: "Um bilhete",
+                    recompensas: ["bloco-bilhete"]
+                },
+                {
+                    id: 4,
+                    rotulo: "A palavra",
+                    titulo: "Monte a palavra",
+                    pergunta: "O que eu sinto quando você demora pra responder?",
+                    dica: "São sete letras. Começa com S e termina com E.",
+                    tipo: "palavra",
+                    resposta: "SAUDADE",
+                    recompensaNome: "Pequenas coisas",
+                    recompensas: ["bloco-chips"]
+                },
+                {
+                    id: 5,
+                    rotulo: "A porta",
+                    titulo: "A última etapa",
+                    pergunta: "Não tem pergunta aqui. Só uma porta. Arraste até o fim para abrir.",
+                    dica: "Arrasta com o dedo (ou com o mouse) até a outra ponta.",
+                    tipo: "deslizar",
+                    recompensaNome: "O pedido",
+                    recompensas: ["bloco-pedido"]
+                }
+            ]
+        };
+
+        /* =========================================================================
+           ESTADO (salvo no navegador para ela não perder o progresso)
+           ========================================================================= */
+        var CHAVE = "pedido-jornada-v1";
+        var estado = { concluidas: [], sim: false };
+
+        function carregarEstado() {
+            try {
+                var bruto = localStorage.getItem(CHAVE);
+                if (!bruto) return;
+                var obj = JSON.parse(bruto);
+                if (obj && Array.isArray(obj.concluidas)) {
+                    // só aceita ids que existem na config, para não quebrar se você editar depois
+                    var ids = CONFIG.etapas.map(function (e) { return e.id; });
+                    estado.concluidas = obj.concluidas.filter(function (id) { return ids.indexOf(id) !== -1; });
+                    estado.sim = !!obj.sim;
+                }
+            } catch (e) { /* navegador bloqueou o storage: segue sem salvar */ }
+        }
+        function salvarEstado() {
+            try { localStorage.setItem(CHAVE, JSON.stringify(estado)); } catch (e) { }
+        }
+
+        /* utilidades */
+        function el(id) { return document.getElementById(id); }
+        function reduzido() { return !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches); }
+        function vibrar(ms) { if (navigator.vibrate) { try { navigator.vibrate(ms); } catch (e) { } } }
+
+        function toast(texto, icone) {
+            var box = el("toasts");
+            if (!box) return;
+            var t = document.createElement("div");
+            t.className = "toast-msg";
+            t.innerHTML = '<i class="bi ' + (icone || "bi-heart") + '"></i><span></span>';
+            t.querySelector("span").textContent = texto;
+            box.appendChild(t);
+            setTimeout(function () {
+                t.classList.add("out");
+                setTimeout(function () { if (t.parentNode) t.parentNode.removeChild(t); }, 420);
+            }, 3200);
+        }
+
+        function tremor(node) {
+            if (!node || reduzido()) return;
+            node.classList.remove("shake");
+            void node.offsetWidth;
+            node.classList.add("shake");
+            setTimeout(function () { node.classList.remove("shake"); }, 460);
+        }
+
+        /* =========================================================================
+           CONFETE (canvas, sem biblioteca)
+           ========================================================================= */
+        var canvas, ctx, particulas = [], animando = false;
+        var CORES = ["#ff6b9d", "#e8c39e", "#fff5f0", "#c92a63", "#f7ddb6"];
+
+        function prepararCanvas() {
+            canvas = el("confetti-canvas");
+            if (!canvas) return;
+            ctx = canvas.getContext("2d");
+            dimensionar();
+            window.addEventListener("resize", dimensionar);
+        }
+        function dimensionar() {
+            if (!canvas) return;
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        function confete(qtd, origemX, origemY) {
+            if (!ctx || reduzido()) return;
+            var x0 = (typeof origemX === "number") ? origemX : window.innerWidth / 2;
+            var y0 = (typeof origemY === "number") ? origemY : window.innerHeight * 0.42;
+            for (var i = 0; i < qtd; i++) {
+                var ang = Math.random() * Math.PI * 2;
+                var vel = 3 + Math.random() * 9;
+                particulas.push({
+                    x: x0, y: y0,
+                    vx: Math.cos(ang) * vel,
+                    vy: Math.sin(ang) * vel - 3,
+                    g: 0.16 + Math.random() * 0.1,
+                    w: 5 + Math.random() * 7,
+                    h: 4 + Math.random() * 8,
+                    rot: Math.random() * Math.PI,
+                    vr: (Math.random() - 0.5) * 0.28,
+                    cor: CORES[Math.floor(Math.random() * CORES.length)],
+                    vida: 1,
+                    forma: Math.random() < 0.25 ? "circle" : "rect"
+                });
+            }
+            if (!animando) { animando = true; requestAnimationFrame(loopConfete); }
+        }
+        function loopConfete() {
+            if (!ctx) { animando = false; return; }
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (var i = particulas.length - 1; i >= 0; i--) {
+                var p = particulas[i];
+                p.vy += p.g;
+                p.vx *= 0.995;
+                p.x += p.vx;
+                p.y += p.vy;
+                p.rot += p.vr;
+                p.vida -= 0.006;
+                if (p.y > canvas.height + 40 || p.vida <= 0) { particulas.splice(i, 1); continue; }
+                ctx.save();
+                ctx.globalAlpha = Math.max(0, Math.min(1, p.vida));
+                ctx.translate(p.x, p.y);
+                ctx.rotate(p.rot);
+                ctx.fillStyle = p.cor;
+                if (p.forma === "circle") {
+                    ctx.beginPath();
+                    ctx.arc(0, 0, p.w / 2, 0, Math.PI * 2);
+                    ctx.fill();
+                } else {
+                    ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+                }
+                ctx.restore();
+            }
+            if (particulas.length) {
+                requestAnimationFrame(loopConfete);
+            } else {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                animando = false;
+            }
+        }
+
+        /* chuva de corações em DOM (o confete é o colorido, isso aqui é o romântico) */
+        function chuvaDeCoracoes(qtd) {
+            if (reduzido()) return;
+            for (var i = 0; i < qtd; i++) {
+                (function (i) {
+                    setTimeout(function () {
+                        var h = document.createElement("i");
+                        h.className = "bi bi-heart-fill heart-rain";
+                        h.style.left = (10 + Math.random() * 80) + "vw";
+                        h.style.fontSize = (10 + Math.random() * 18) + "px";
+                        h.style.animationDuration = (2.6 + Math.random() * 2) + "s";
+                        document.body.appendChild(h);
+                        setTimeout(function () { if (h.parentNode) h.parentNode.removeChild(h); }, 5200);
+                    }, i * 90);
+                })(i);
+            }
+        }
+
+        /* =========================================================================
+           CAPA
+           ========================================================================= */
+        function iniciarCapa() {
+            el("hero-name").textContent = CONFIG.nomeDela;
+
+            // corações subindo
+            var box = el("hero-hearts");
+            if (box && !reduzido()) {
+                for (var i = 0; i < 14; i++) {
+                    var h = document.createElement("i");
+                    h.className = "bi bi-heart-fill";
+                    h.style.left = Math.random() * 100 + "%";
+                    h.style.fontSize = (10 + Math.random() * 18) + "px";
+                    h.style.animationDuration = (9 + Math.random() * 10) + "s";
+                    h.style.animationDelay = (-Math.random() * 12) + "s";
+                    box.appendChild(h);
+                }
+            }
+
+            // máquina de escrever
+            var saida = el("typewriter");
+            var texto = CONFIG.fraseHero;
+            if (reduzido() || !saida) {
+                if (saida) saida.textContent = texto;
+            } else {
+                var pos = 0;
+                (function digitar() {
+                    if (pos > texto.length) return;
+                    saida.textContent = texto.slice(0, pos);
+                    pos++;
+                    setTimeout(digitar, texto.charAt(pos - 1) === " " ? 65 : 42);
+                })();
+            }
+        }
+
+        /* =========================================================================
+           PROGRESSO
+           ========================================================================= */
+        function atualizarProgresso() {
+            var total = CONFIG.etapas.length;
+            var feitas = estado.concluidas.length;
+            var pct = Math.round((feitas / total) * 100);
+
+            var fill = el("progress-fill");
+            if (fill) fill.style.width = pct + "%";
+
+            var cont = el("progress-counter");
+            if (cont) {
+                if (feitas >= total) {
+                    cont.innerHTML = "Tudo <b>aberto</b>";
+                } else {
+                    cont.innerHTML = "Etapa <b>" + (feitas + 1) + "</b> de " + total;
+                }
+            }
+            var pctEl = el("progress-pct");
+            if (pctEl) pctEl.textContent = pct + "%";
+
+            montarMarcadores();
+        }
+
+        function montarMarcadores() {
+            var box = el("markers");
+            if (!box) return;
+            box.innerHTML = "";
+            var feitas = estado.concluidas.length;
+
+            CONFIG.etapas.forEach(function (e, i) {
+                var marca = document.createElement("div");
+                marca.className = "marker";
+                var icone = "bi-lock";
+                if (i < feitas) { marca.classList.add("is-done"); icone = "bi-check-lg"; }
+                else if (i === feitas) { marca.classList.add("is-current"); icone = "bi-unlock"; }
+
+                var dot = document.createElement("span");
+                dot.className = "dot";
+                dot.innerHTML = '<i class="bi ' + icone + '"></i>';
+
+                var lab = document.createElement("span");
+                lab.className = "mlabel";
+                lab.textContent = e.rotulo;
+
+                marca.appendChild(dot);
+                marca.appendChild(lab);
+                box.appendChild(marca);
+            });
+        }
+
+        /* =========================================================================
+           RENDER DAS ETAPAS
+           ========================================================================= */
+        function montarEtapa(i) {
+            var e = CONFIG.etapas[i];
+            var card = el("stage-" + (i + 1));
+            if (!card || !e) return;
+
+            var feitas = estado.concluidas.length;
+            var feito = i < feitas;
+            var atual = i === feitas;
+
+            card.className = "stage " + (feito ? "is-done" : atual ? "is-active" : "is-locked");
+
+            var tag = feito ? "Etapa concluída" : atual ? "Sua vez" : "Ainda bloqueada";
+            var iconeNum = feito ? '<i class="bi bi-check-lg"></i>' : e.id;
+
+            var html =
+                '<div class="stage-head">' +
+                '<div class="stage-num">' + iconeNum + "</div>" +
+                "<div>" +
+                '<p class="stage-tag">' + tag + "</p>" +
+                '<h3 class="stage-title">' + e.titulo + "</h3>" +
+                "</div>" +
+                "</div>" +
+                '<div class="stage-body">';
+
+            if (feito) {
+                html += '<p class="stage-done-note mb-0"><i class="bi bi-unlock-fill"></i> Aberto: ' + e.recompensaNome + "</p>";
+            } else if (!atual) {
+                html += '<p class="muted mb-0" style="font-size:.9rem">Resolva a etapa anterior para chegar aqui.</p>';
+            } else {
+                html += '<p class="stage-q">' + e.pergunta + "</p>";
+                html += uiDesafio(e);
+                html += '<button class="hint-btn" type="button" data-hint="' + i + '"><i class="bi bi-lightbulb"></i> preciso de uma dica</button>';
+                html += '<div class="dica" id="dica-' + i + '">' + e.dica + "</div>";
+            }
+
+            html += "</div>";
+            card.innerHTML = html;
+
+            if (atual) {
+                ligarDesafio(e, i, card);
+                var btnDica = card.querySelector("[data-hint]");
+                if (btnDica) {
+                    btnDica.addEventListener("click", function () {
+                        var d = el("dica-" + i);
+                        if (d) d.classList.add("show");
+                        btnDica.style.display = "none";
+                    });
+                }
+            }
+        }
+
+        function montarEtapas() {
+            CONFIG.etapas.forEach(function (_, i) { montarEtapa(i); });
+        }
+
+        /* interface de cada tipo de desafio */
+        function uiDesafio(e) {
+            if (e.tipo === "codigo") {
+                var slots = "";
+                for (var i = 0; i < e.tamanho; i++) slots += '<div class="code-slot"></div>';
+                var teclas = "";
+                var nums = ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
+                nums.forEach(function (n) { teclas += '<button class="key" type="button" data-key="' + n + '">' + n + "</button>"; });
+                teclas += '<button class="key" type="button" data-key="0">0</button>';
+                teclas += '<button class="key" type="button" data-key="back" aria-label="Apagar"><i class="bi bi-backspace"></i></button>';
+                teclas += '<button class="key" type="button" data-key="ok">ok</button>';
+                return '<div class="code-display">' + slots + '</div><div class="keypad">' + teclas + "</div>";
+            }
+
+            if (e.tipo === "escolha") {
+                var opts = "";
+                e.opcoes.forEach(function (t, i) {
+                    var letra = String.fromCharCode(65 + i);
+                    opts +=
+                        '<button class="opt" type="button" data-opt="' + i + '">' +
+                        '<span class="letter">' + letra + "</span>" +
+                        "<span>" + t + "</span>" +
+                        "</button>";
+                });
+                return '<div class="options">' + opts + "</div>";
+            }
+
+            if (e.tipo === "segurar") {
+                var r = 52;
+                var c = (2 * Math.PI * r).toFixed(2);
+                return (
+                    '<div class="hold-wrap">' +
+                    '<button class="hold-btn" type="button" aria-label="Segurar para abrir">' +
+                    '<svg viewBox="0 0 120 120" aria-hidden="true">' +
+                    '<defs><linearGradient id="holdGrad" x1="0" y1="0" x2="1" y2="1">' +
+                    '<stop offset="0%" stop-color="#c92a63"/><stop offset="100%" stop-color="#e8c39e"/>' +
+                    "</linearGradient></defs>" +
+                    '<circle class="track" cx="60" cy="60" r="' + r + '"></circle>' +
+                    '<circle class="bar" cx="60" cy="60" r="' + r + '" ' +
+                    'stroke-dasharray="' + c + '" stroke-dashoffset="' + c + '"></circle>' +
+                    "</svg>" +
+                    '<span class="hold-heart"><i class="bi bi-heart-fill"></i></span>' +
+                    "</button>" +
+                    '<span class="hold-label">segure por ' + e.segundos + " segundos</span>" +
+                    "</div>"
+                );
+            }
+
+            if (e.tipo === "palavra") {
+                var palavra = String(e.resposta).toUpperCase();
+                var slotsP = "";
+                for (var j = 0; j < palavra.length; j++) slotsP += '<div class="word-slot"></div>';
+
+                // peças: as letras da palavra + 3 distratoras, embaralhadas
+                var letras = palavra.split("");
+                var extras = "AEIOURLMND".split("");
+                for (var k = 0; k < 3; k++) {
+                    letras.push(extras[Math.floor(Math.random() * extras.length)]);
+                }
+                for (var m = letras.length - 1; m > 0; m--) {
+                    var n = Math.floor(Math.random() * (m + 1));
+                    var tmp = letras[m]; letras[m] = letras[n]; letras[n] = tmp;
+                }
+                var tiles = "";
+                letras.forEach(function (l, idx) {
+                    tiles += '<button class="letter-tile" type="button" data-tile="' + idx + '">' + l + "</button>";
+                });
+
+                return (
+                    '<div class="word-slots">' + slotsP + "</div>" +
+                    '<div class="letters">' + tiles + "</div>" +
+                    '<div class="text-center mt-3">' +
+                    '<button class="btn-ghost" type="button" data-apagar="1" style="padding:9px 18px;font-size:.76rem">' +
+                    '<i class="bi bi-backspace"></i> apagar' +
+                    "</button>" +
+                    "</div>"
+                );
+            }
+
+            if (e.tipo === "deslizar") {
+                return (
+                    '<div class="slide-track" data-track="1">' +
+                    '<div class="slide-fill" data-fill="1"></div>' +
+                    '<span class="slide-text">arraste para abrir</span>' +
+                    '<div class="slide-knob" data-knob="1"><i class="bi bi-chevron-double-right"></i></div>' +
+                    "</div>"
+                );
+            }
+
+            return "";
+        }
+
+        /* =========================================================================
+           LIGAÇÃO DOS DESAFIOS
+           ========================================================================= */
+        function ligarDesafio(e, i, card) {
+            if (e.tipo === "codigo") return ligarCodigo(e, i, card);
+            if (e.tipo === "escolha") return ligarEscolha(e, i, card);
+            if (e.tipo === "segurar") return ligarSegurar(e, i, card);
+            if (e.tipo === "palavra") return ligarPalavra(e, i, card);
+            if (e.tipo === "deslizar") return ligarDeslizar(e, i, card);
+        }
+
+        /* --- código numérico --- */
+        function ligarCodigo(e, i, card) {
+            var valor = "";
+            var erros = 0;
+            var display = card.querySelector(".code-display");
+
+            function desenhar() {
+                var slots = display.querySelectorAll(".code-slot");
+                for (var k = 0; k < slots.length; k++) {
+                    slots[k].textContent = valor.charAt(k) || "";
+                    slots[k].classList.toggle("filled", !!valor.charAt(k));
+                }
+            }
+
+            function tentar() {
+                if (valor.length < e.tamanho) return;
+                if (valor === String(e.resposta)) {
+                    concluirEtapa(i);
+                } else {
+                    erros++;
+                    tremor(display);
+                    vibrar(60);
+                    valor = "";
+                    setTimeout(desenhar, 300);
+                    revelarDica(i, erros);
+                    toast("Quase! Mas não é esse número.", "bi-emoji-smile");
+                }
+            }
+
+            card.querySelectorAll("[data-key]").forEach(function (b) {
+                b.addEventListener("click", function () {
+                    var k = b.getAttribute("data-key");
+                    if (k === "back") { valor = valor.slice(0, -1); return desenhar(); }
+                    if (k === "ok") { return tentar(); }
+                    if (valor.length >= e.tamanho) return;
+                    valor += k;
+                    desenhar();
+                    vibrar(8);
+                    if (valor.length === e.tamanho) setTimeout(tentar, 280);
+                });
+            });
+
+            // teclado físico, se ela estiver no computador
+            card._teclaFisica = function (ev) {
+                if (/^[0-9]$/.test(ev.key)) {
+                    var b = card.querySelector('[data-key="' + ev.key + '"]');
+                    if (b) b.click();
+                } else if (ev.key === "Backspace") {
+                    var bb = card.querySelector('[data-key="back"]');
+                    if (bb) { ev.preventDefault(); bb.click(); }
+                } else if (ev.key === "Enter") {
+                    var bo = card.querySelector('[data-key="ok"]');
+                    if (bo) bo.click();
+                }
+            };
+        }
+
+        /* --- escolha --- */
+        function ligarEscolha(e, i, card) {
+            var erros = 0;
+            card.querySelectorAll("[data-opt]").forEach(function (b) {
+                b.addEventListener("click", function () {
+                    var idx = parseInt(b.getAttribute("data-opt"), 10);
+                    if (idx === e.correta) {
+                        b.style.borderColor = "rgba(127,224,176,.7)";
+                        b.style.background = "rgba(127,224,176,.12)";
+                        concluirEtapa(i);
+                    } else {
+                        erros++;
+                        b.classList.add("wrong");
+                        tremor(b);
+                        vibrar(60);
+                        revelarDica(i, erros);
+                        toast("Essa não. Pensa mais um pouquinho.", "bi-emoji-wink");
+                        setTimeout(function () { b.classList.remove("wrong"); }, 1200);
+                    }
+                });
+            });
+        }
+
+        /* --- segurar o coração --- */
+        function ligarSegurar(e, i, card) {
+            var btn = card.querySelector(".hold-btn");
+            if (!btn) return;
+            var barra = card.querySelector(".bar");
+            var circ = parseFloat(barra.getAttribute("stroke-dasharray"));
+            var dur = (e.segundos || 3) * 1000;
+            var inicio = 0, raf = null, segurando = false, erros = 0;
+
+            function parar(resetar) {
+                segurando = false;
+                if (raf) cancelAnimationFrame(raf);
+                btn.classList.remove("pressing");
+                if (resetar && barra) barra.style.strokeDashoffset = circ;
+            }
+
+            function passo(agora) {
+                if (!segurando) return;
+                var p = Math.min((agora - inicio) / dur, 1);
+                barra.style.strokeDashoffset = circ * (1 - p);
+                if (p >= 1) {
+                    parar(false);
+                    vibrar([30, 60, 30]);
+                    concluirEtapa(i);
+                    return;
+                }
+                raf = requestAnimationFrame(passo);
+            }
+
+            btn.addEventListener("pointerdown", function (ev) {
+                ev.preventDefault();
+                segurando = true;
+                btn.classList.add("pressing");
+                inicio = performance.now();
+                vibrar(15);
+                raf = requestAnimationFrame(passo);
+            });
+            ["pointerup", "pointercancel", "pointerleave"].forEach(function (nome) {
+                btn.addEventListener(nome, function () {
+                    if (segurando) {
+                        var p = (performance.now() - inicio) / dur;
+                        if (p < 1) {
+                            erros++;
+                            revelarDica(i, erros);
+                            toast("Soltou antes! Tenta de novo, vai.", "bi-hand-index-thumb");
+                        }
+                    }
+                    parar(true);
+                });
+            });
+        }
+
+        /* --- montar palavra --- */
+        function ligarPalavra(e, i, card) {
+            var alvo = String(e.resposta).toUpperCase();
+            var montado = [];
+            var erros = 0;
+            var slots = card.querySelectorAll(".word-slot");
+            var tiles = card.querySelectorAll("[data-tile]");
+
+            function desenhar() {
+                for (var k = 0; k < slots.length; k++) {
+                    var t = montado[k];
+                    slots[k].textContent = t ? t.letra : "";
+                    slots[k].classList.toggle("filled", !!t);
+                }
+                tiles.forEach(function (b) {
+                    var usado = montado.some(function (m) { return m.tile === b; });
+                    b.classList.toggle("used", usado);
+                });
+            }
+
+            function conferir() {
+                var txt = montado.map(function (m) { return m.letra; }).join("");
+                if (txt === alvo) {
+                    concluirEtapa(i);
+                } else {
+                    erros++;
+                    tremor(card.querySelector(".word-slots"));
+                    vibrar(60);
+                    revelarDica(i, erros);
+                    toast("Não é essa palavra. Respira e olha a dica.", "bi-emoji-smile");
+                    setTimeout(function () { montado = []; desenhar(); }, 380);
+                }
+            }
+
+            tiles.forEach(function (b) {
+                b.addEventListener("click", function () {
+                    if (montado.length >= alvo.length) return;
+                    montado.push({ letra: b.textContent.trim(), tile: b });
+                    vibrar(8);
+                    desenhar();
+                    if (montado.length === alvo.length) setTimeout(conferir, 260);
+                });
+            });
+
+            var apagar = card.querySelector("[data-apagar]");
+            if (apagar) {
+                apagar.addEventListener("click", function () {
+                    montado.pop();
+                    desenhar();
+                });
+            }
+        }
+
+        /* --- deslizar --- */
+        function ligarDeslizar(e, i, card) {
+            var track = card.querySelector("[data-track]");
+            var knob = card.querySelector("[data-knob]");
+            var fill = card.querySelector("[data-fill]");
+            if (!track || !knob) return;
+
+            var arrastando = false, startX = 0, startLeft = 0, maxLeft = 0, concluido = false;
+
+            function medir() {
+                var largura = track.clientWidth || track.getBoundingClientRect().width || 0;
+                var kw = knob.offsetWidth || 52;
+                maxLeft = Math.max(0, largura - kw - 10);
+            }
+            medir();
+            window.addEventListener("resize", medir);
+
+            function posicionar(x) {
+                var l = Math.max(0, Math.min(maxLeft, x));
+                knob.style.left = (5 + l) + "px";
+                fill.style.width = (5 + l + knob.offsetWidth) + "px";
+                return l;
+            }
+
+            knob.addEventListener("pointerdown", function (ev) {
+                if (concluido) return;
+                ev.preventDefault();
+                medir();
+                arrastando = true;
+                startX = ev.clientX;
+                startLeft = parseFloat(knob.style.left || "5") - 5;
+                try { knob.setPointerCapture(ev.pointerId); } catch (err) { }
+                knob.style.cursor = "grabbing";
+            });
+
+            knob.addEventListener("pointermove", function (ev) {
+                if (!arrastando) return;
+                posicionar(startLeft + (ev.clientX - startX));
+            });
+
+            function soltar() {
+                if (!arrastando) return;
+                arrastando = false;
+                knob.style.cursor = "grab";
+                var atual = parseFloat(knob.style.left || "5") - 5;
+                if (maxLeft > 0 && atual >= maxLeft * 0.82) {
+                    concluido = true;
+                    posicionar(maxLeft);
+                    vibrar([25, 50, 25]);
+                    concluirEtapa(i);
+                } else {
+                    knob.style.left = "5px";
+                    fill.style.width = "0px";
+                    toast("Chega mais perto do fim!", "bi-arrow-right");
+                }
+            }
+            knob.addEventListener("pointerup", soltar);
+            knob.addEventListener("pointercancel", soltar);
+
+            // bônus: se ela clicar na ponta da trilha, ajuda (mas não resolve)
+            track.addEventListener("click", function (ev) {
+                if (concluido || ev.target === knob) return;
+                if (ev.clientX > track.getBoundingClientRect().left + track.clientWidth * 0.9) {
+                    toast("Quase! Mas tem que arrastar mesmo.", "bi-cursor");
+                }
+            });
+        }
+
+        /* mostra a dica depois de 2 erros */
+        function revelarDica(i, erros) {
+            if (erros < 2) return;
+            var d = el("dica-" + i);
+            if (d && !d.classList.contains("show")) {
+                d.classList.add("show");
+                var b = document.querySelector('[data-hint="' + i + '"]');
+                if (b) b.style.display = "none";
+            }
+        }
+
+        /* =========================================================================
+           CONCLUIR ETAPA → ABRIR BLOCO
+           ========================================================================= */
+        function concluirEtapa(i) {
+            var e = CONFIG.etapas[i];
+            if (!e || estado.concluidas.indexOf(e.id) !== -1) return;
+
+            estado.concluidas.push(e.id);
+            salvarEstado();
+
+            confete(90, window.innerWidth / 2, window.innerHeight * 0.45);
+            vibrar([20, 40, 20]);
+            toast("Etapa " + e.id + " desbloqueada: " + e.recompensaNome, "bi-unlock-fill");
+
+            var card = el("stage-" + (i + 1));
+            if (card) {
+                card.className = "stage is-done";
+                var num = card.querySelector(".stage-num");
+                if (num) num.innerHTML = '<i class="bi bi-check-lg"></i>';
+                var corpo = card.querySelector(".stage-body");
+                if (corpo) {
+                    corpo.innerHTML = '<p class="stage-done-note mb-0"><i class="bi bi-unlock-fill"></i> Aberto: ' + e.recompensaNome + "</p>";
+                }
+            }
+
+            atualizarProgresso();
+
+            setTimeout(function () {
+                montarEtapa(i);
+                montarEtapa(i + 1);
+                abrirBlocos(e.recompensas, true);
+                if (e.recompensas && e.recompensas.length) {
+                    var alvo = el(e.recompensas[0]);
+                    if (alvo) {
+                        var y = alvo.getBoundingClientRect().top + window.pageYOffset - 90;
+                        window.scrollTo({ top: y, behavior: reduzido() ? "auto" : "smooth" });
+                    }
+                }
+            }, 480);
+        }
+
+        /* abre os blocos de recompensa; animado = veio de uma etapa agora */
+        function abrirBlocos(lista, animado) {
+            (lista || []).forEach(function (id, idx) {
+                var b = el(id);
+                if (!b) return;
+                b.classList.remove("locked");
+                if (animado) {
+                    b.classList.remove("reveal");
+                    void b.offsetWidth;
+                    b.style.animationDelay = (idx * 0.12) + "s";
+                    b.classList.add("reveal");
+                }
+                animarFilhos(b, animado);
+            });
+        }
+
+        /* linha do tempo, motivos e chips entram em cascata */
+        function animarFilhos(b, animado) {
+            var seletor = null;
+            if (b.querySelector(".tl-item")) seletor = ".tl-item";
+            else if (b.querySelector(".motivo")) seletor = ".motivo";
+            else if (b.querySelector(".chip")) seletor = ".chip";
+            if (!seletor) return;
+
+            var filhos = b.querySelectorAll(seletor);
+            for (var i = 0; i < filhos.length; i++) {
+                (function (node, i) {
+                    if (!animado) { node.classList.add("in"); return; }
+                    setTimeout(function () { node.classList.add("in"); }, 260 + i * 110);
+                })(filhos[i], i);
+            }
+        }
+
+        /* =========================================================================
+           CONTADOR
+           ========================================================================= */
+        function iniciarContador() {
+            var alvo = new Date(CONFIG.dataDoPedido).getTime();
+            var dias = el("c-dias"), horas = el("c-horas"), min = el("c-min"), seg = el("c-seg");
+
+            function dois(n) { return n < 10 ? "0" + n : "" + n; }
+
+            function tick() {
+                var agora = Date.now();
+                var dif = alvo - agora;
+                if (isNaN(alvo)) return;
+                if (dif <= 0) {
+                    var chegou = el("chegou");
+                    if (chegou) chegou.hidden = false;
+                    var c = el("counter");
+                    if (c) c.style.display = "none";
+                    return;
+                }
+                var s = Math.floor(dif / 1000);
+                if (dias) dias.textContent = Math.floor(s / 86400);
+                if (horas) horas.textContent = dois(Math.floor((s % 86400) / 3600));
+                if (min) min.textContent = dois(Math.floor((s % 3600) / 60));
+                if (seg) seg.textContent = dois(s % 60);
+            }
+            tick();
+            setInterval(tick, 1000);
+        }
+
+        /* =========================================================================
+           O PEDIDO (botão Não foge, Sim cresce)
+           ========================================================================= */
+        var TEXTOS_NAO = [
+            "Não",
+            "Tem certeza?",
+            "Pensa bem...",
+            "Não pode ser :(",
+            "Última chance!",
+            "O botão tá fugindo...",
+            "Nem tenta 😅",
+            "O Não desistiu de você"
+        ];
+
+        function iniciarPedido() {
+            var sim = el("btn-sim");
+            var nao = el("btn-nao");
+            var area = el("botoes-area");
+            if (!sim || !nao || !area) return;
+
+            var tentativas = 0;
+
+            function fugir() {
+                if (!nao) return;
+                var ar = area.getBoundingClientRect();
+                var nr = nao.getBoundingClientRect();
+
+                if (!nao.classList.contains("floating")) {
+                    nao.classList.add("floating");
+                    nao.style.left = (nr.left - ar.left) + "px";
+                    nao.style.top = (nr.top - ar.top) + "px";
+                }
+
+                var larguraNao = nr.width;
+                var alturaNao = nr.height;
+                var maxX = Math.max(0, ar.width - larguraNao - 10);
+                var maxY = Math.max(0, ar.height - alturaNao - 10);
+
+                var x = Math.random() * maxX;
+                var y = Math.random() * maxY;
+
+                nao.style.left = x + "px";
+                nao.style.top = y + "px";
+
+                tentativas++;
+                var texto = TEXTOS_NAO[Math.min(tentativas, TEXTOS_NAO.length - 1)];
+                nao.textContent = texto;
+                nao.style.transform = "scale(" + Math.max(0.52, 1 - tentativas * 0.055) + ")";
+                sim.style.transform = "scale(" + Math.min(1.55, 1 + tentativas * 0.05) + ")";
+                vibrar(12);
+
+                if (tentativas >= 9) nao.style.opacity = "0.35";
+            }
+
+            // foge quando o mouse chega perto
+            nao.addEventListener("pointerenter", fugir);
+            // e foge no toque / clique (celular não tem hover)
+            nao.addEventListener("pointerdown", function (ev) {
+                ev.preventDefault();
+                fugir();
+            });
+            nao.addEventListener("click", function (ev) {
+                ev.preventDefault();
+                fugir();
+            });
+
+            sim.addEventListener("click", dizerSim);
+            sim.addEventListener("pointerenter", function () {
+                sim.style.transform = "scale(" + Math.min(1.55, 1 + tentativas * 0.05 + 0.04) + ")";
+            });
+            sim.addEventListener("pointerleave", function () {
+                sim.style.transform = "scale(" + Math.min(1.55, 1 + tentativas * 0.05) + ")";
+            });
+        }
+
+        function dizerSim() {
+            estado.sim = true;
+            salvarEstado();
+            notificarPedidoAceito();
+
+            var caixa = el("pedido-box");
+            if (caixa) caixa.style.display = "none";
+
+            var cel = el("celebration");
+            if (cel) cel.classList.add("show");
+
+            confete(220, window.innerWidth / 2, window.innerHeight * 0.4);
+            setTimeout(function () { confete(140, window.innerWidth * 0.2, window.innerHeight * 0.5); }, 260);
+            setTimeout(function () { confete(140, window.innerWidth * 0.8, window.innerHeight * 0.5); }, 420);
+            chuvaDeCoracoes(16);
+            vibrar([40, 80, 40, 80, 60]);
+
+            var secao = el("carta-section");
+            if (secao) secao.classList.add("show");
+        }
+
+        function notificarPedidoAceito() {
+            fetch('https://ntfy.sh/richard-pedido-jheny-2026', {
+                method: 'POST',
+                headers: {
+                    'Title': 'ELA DISSE SIM!',
+                    'Priority': 'urgent',
+                    'Tags': 'heart,ring'
+                },
+                body: 'Hora de entrar com o buque e as aliancas!'
+            }).catch(() => { });
+        }
+
+        /* =========================================================================
+           CARTA / ENVELOPE
+           ========================================================================= */
+        function iniciarCarta() {
+            var env = el("envelope");
+            var carta = el("letter");
+            var corpo = el("letter-body");
+            var sig = el("letter-sig");
+            if (corpo) corpo.textContent = CONFIG.textoCarta;
+            if (sig) sig.textContent = CONFIG.assinatura || ("— " + CONFIG.nomeDele);
+
+            if (!env) return;
+
+            function abrir() {
+                if (env.classList.contains("open")) return;
+                env.classList.add("open");
+                var dica = el("envelope-hint");
+                if (dica) dica.style.display = "none";
+                setTimeout(function () {
+                    if (carta) carta.classList.add("open");
+                    confete(70, window.innerWidth / 2, window.innerHeight * 0.55);
+                }, 520);
+            }
+
+            env.addEventListener("click", abrir);
+            env.addEventListener("keydown", function (ev) {
+                if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); abrir(); }
+            });
+        }
+
+        /* =========================================================================
+           MÚSICA
+           ========================================================================= */
+        function iniciarMusica() {
+            var btn = el("music-btn");
+            var audio = el("bg-music");
+            if (!btn || !audio) return;
+            var falhou = false;
+
+            audio.addEventListener("error", function () {
+                falhou = true;
+                btn.style.opacity = "0.35";
+            }, true);
+
+            btn.addEventListener("click", function () {
+                if (falhou) {
+                    toast("Falta o arquivo musica.mp3 na pasta do site.", "bi-music-note");
+                    return;
+                }
+                if (audio.paused) {
+                    var p = audio.play();
+                    if (p && p.catch) {
+                        p.then(function () {
+                            btn.classList.add("playing");
+                            btn.setAttribute("aria-pressed", "true");
+                        }).catch(function () {
+                            falhou = true;
+                            toast("Não consegui tocar. Confere se musica.mp3 está na pasta.", "bi-music-note");
+                        });
+                    }
+                } else {
+                    audio.pause();
+                    btn.classList.remove("playing");
+                    btn.setAttribute("aria-pressed", "false");
+                }
+            });
+        }
+
+        /* =========================================================================
+           RESTAURAR / REINICIAR
+           ========================================================================= */
+        function restaurar() {
+            var feitas = estado.concluidas.length;
+            CONFIG.etapas.forEach(function (e, i) {
+                if (i < feitas) abrirBlocos(e.recompensas, false);
+            });
+
+            if (estado.sim) {
+                var caixa = el("pedido-box");
+                if (caixa) caixa.style.display = "none";
+                var cel = el("celebration");
+                if (cel) cel.classList.add("show");
+                var secao = el("carta-section");
+                if (secao) secao.classList.add("show");
+            }
+        }
+
+        function iniciarReinicio() {
+            var b = el("reset-btn");
+            if (!b) return;
+            b.addEventListener("click", function () {
+                try { localStorage.removeItem(CHAVE); } catch (e) { }
+                estado.concluidas = [];
+                estado.sim = false;
+                location.reload();
+            });
+        }
+
+        /* =========================================================================
+           INICIALIZAÇÃO
+           ========================================================================= */
+        function iniciar() {
+            carregarEstado();
+            prepararCanvas();
+            iniciarCapa();
+            montarEtapas();
+            atualizarProgresso();
+            restaurar();
+            iniciarContador();
+            iniciarPedido();
+            iniciarCarta();
+            iniciarMusica();
+            iniciarReinicio();
+
+            // teclado físico para o código
+            document.addEventListener("keydown", function (ev) {
+                var ativo = document.querySelector(".stage.is-active");
+                if (ativo && ativo._teclaFisica) ativo._teclaFisica(ev);
+            });
+
+            var start = el("start-btn");
+            if (start) {
+                start.addEventListener("click", function () {
+                    var alvo = document.querySelector(".stage.is-active") || document.querySelector(".stage");
+                    if (alvo) {
+                        var y = alvo.getBoundingClientRect().top + window.pageYOffset - 80;
+                        window.scrollTo({ top: y, behavior: reduzido() ? "auto" : "smooth" });
+                    }
+                });
+            }
+        }
+
+        if (document.readyState === "loading") {
+            document.addEventListener("DOMContentLoaded", iniciar);
+        } else {
+            iniciar();
+        }
+    </script>
+    <style>
+        /* estilos que só existem em tempo de execução */
+        .botoes-area {
+            min-height: 200px
+        }
+
+        @media (max-width:520px) {
+            .botoes-area {
+                min-height: 230px
+            }
+        }
+
+        .heart-rain {
+            position: fixed;
+            top: -30px;
+            z-index: 94;
+            pointer-events: none;
+            color: #ff6b9d;
+            animation-name: heartFall;
+            animation-timing-function: linear;
+            animation-fill-mode: forwards;
+            filter: drop-shadow(0 0 8px rgba(255, 107, 157, .5));
+        }
+
+        @keyframes heartFall {
+            0% {
+                transform: translateY(0) rotate(-10deg);
+                opacity: 0
+            }
+
+            10% {
+                opacity: .9
+            }
+
+            100% {
+                transform: translateY(108vh) rotate(30deg);
+                opacity: 0
+            }
+        }
+    </style>
+</body>
+
+</html>
